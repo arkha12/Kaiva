@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  --color-inverse-on-surface: #f0f1f1;
+  --color-surface-container-highest: #e2e2e2;
+  --color-surface-dim: #dadada;
+  --color-on-primary-fixed: #1b1b1b;
+  --color-on-tertiary-container: #838483;
+  --color-secondary-container: #e1dfdf;
+  --color-tertiary: #000000;
+  --color-on-tertiary: #ffffff;
+  --color-on-primary-fixed-variant: #474747;
+  --color-on-error: #ffffff;
+  --color-on-background: #1a1c1c;
+  --color-outline-variant: #cfc4c5;
+  --color-secondary-fixed: #e4e2e2;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-high: #e8e8e8;
+  --color-on-tertiary-fixed-variant: #454746;
+  --color-on-secondary-container: #626262;
+  --color-surface-tint: #5e5e5e;
+  --color-surface-container: #eeeeee;
+  --color-error-container: #ffdad6;
+  --color-surface-container-low: #f3f3f4;
+  --color-on-tertiary-fixed: #1a1c1b;
+  --color-on-surface: #1a1c1c;
+  --color-on-primary: #ffffff;
+  --color-secondary: #5e5e5e;
+  --color-primary-container: #1b1b1b;
+  --color-on-surface-variant: #4c4546;
+  --color-tertiary-fixed-dim: #c6c7c5;
+  --color-primary-fixed-dim: #c6c6c6;
+  --color-primary: #000000;
+  --color-inverse-primary: #c6c6c6;
+  --color-on-secondary: #ffffff;
+  --color-surface: #f9f9f9;
+  --color-on-primary-container: #848484;
+  --color-surface-bright: #f9f9f9;
+  --color-surface-variant: #e2e2e2;
+  --color-inverse-surface: #2f3131;
+  --color-background: #f9f9f9;
+  --color-on-error-container: #93000a;
+  --color-on-secondary-fixed: #1b1c1c;
+  --color-on-secondary-fixed-variant: #464747;
+  --color-secondary-fixed-dim: #c7c6c6;
+  --color-error: #ba1a1a;
+  --color-primary-fixed: #e2e2e2;
+  --color-outline: #7e7576;
+  --color-tertiary-container: #1a1c1b;
+  --color-tertiary-fixed: #e2e3e1;
+
+  --spacing-section-gap: 128px;
+  --spacing-content-gap: 32px;
+  --spacing-margin-page: 64px;
+  --spacing-gutter: 24px;
+  --spacing-unit: 4px;
+  --spacing-margin-safe: 64px;
+  --spacing-container-max: 1440px;
+
+  --font-headline-lg-mobile: "Geist", sans-serif;
+  --font-display-xl: "Geist", sans-serif;
+  --font-mono-metric: "Geist Mono", monospace;
+  --font-headline-md: "Geist", sans-serif;
+  --font-body-md: "Geist", sans-serif;
+  --font-body-lg: "Geist", sans-serif;
+  --font-headline-lg: "Geist", sans-serif;
+  --font-label-caps: "Geist", sans-serif;
+
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.2;
+  --text-headline-lg-mobile--letter-spacing: -0.02em;
+  --text-headline-lg-mobile--font-weight: 500;
+
+  --text-display-xl: 72px;
+  --text-display-xl--line-height: 1.1;
+  --text-display-xl--letter-spacing: -0.03em;
+  --text-display-xl--font-weight: 500;
+
+  --text-mono-metric: 14px;
+  --text-mono-metric--line-height: 1.4;
+  --text-mono-metric--letter-spacing: 0em;
+  --text-mono-metric--font-weight: 400;
+
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--letter-spacing: -0.01em;
+  --text-headline-md--font-weight: 500;
+
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--letter-spacing: 0em;
+  --text-body-md--font-weight: 400;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--letter-spacing: 0em;
+  --text-body-lg--font-weight: 400;
+
+  --text-headline-lg: 48px;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--letter-spacing: -0.02em;
+  --text-headline-lg--font-weight: 500;
+
+  --text-label-caps: 12px;
+  --text-label-caps--line-height: 1.4;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-label-caps--font-weight: 600;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-background);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.blueprint-grid {
+  background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.line-art-pattern {
+  background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%);
+  background-size: 4px 4px;
+}
