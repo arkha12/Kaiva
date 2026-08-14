@@ -8,14 +8,16 @@ export interface NavItem {
   label: string;
   href: string;
   isExternal?: boolean;
+  isCta?: boolean;
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { label: "Inicio", href: "/", isExternal: false },
-  { label: "Nosotros", href: "/nosotros", isExternal: false },
-  { label: "Servicios", href: "/servicios", isExternal: false },
-  { label: "Portafolio", href: "/portafolio", isExternal: false },
-  { label: "Contacto", href: "/contacto", isExternal: false },
+  { label: "Soluciones", href: "#soluciones", isExternal: false },
+  { label: "Trabajadores Digitales", href: "#trabajadores", isExternal: false },
+  { label: "Tecnología", href: "#tecnologia", isExternal: false },
+  { label: "Seguridad", href: "#seguridad", isExternal: false },
+  { label: "Industrias", href: "#industrias", isExternal: false },
+  { label: "Contacto", href: "#contacto", isExternal: false, isCta: true },
 ];
 
 export function Navbar() {
@@ -38,37 +40,35 @@ export function Navbar() {
       <div className="max-w-[1440px] mx-auto px-6 py-4 flex items-center justify-between flex-col sm:flex-row gap-4">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <svg
-            className="w-8 h-8 text-[var(--color-primary)]"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M3 6h18" />
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-            <path d="M12 10v8l4-4" />
+          <svg viewBox="0 0 120 100" fill="currentColor" className="w-8 h-8 text-[var(--color-primary)] shrink-0">
+            <rect x="16" y="15" width="20" height="70" rx="4" />
+            <path d="M 46 50 L 81 15 H 106 L 71 50 L 106 85 H 81 Z" />
           </svg>
           <span className="text-[20px] font-semibold tracking-wider" style={{ color: "var(--color-primary)" }}>
-            Kaiva
+            KAIVA
           </span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden sm:block flex items-center gap-8">
-          {NAV_ITEMS.map((item, index) => (
-            <a
-              key={index}
-              href={item.href}
-              className={`relative text-sm font-medium transition-colors duration-200 ${
-                scrollPos > 100 ? "text-[var(--color-on-surface)]" : "text-[var(--color-on-background)]"
-              } hover:${item.isExternal ? "no-underline" : "hover:text-[var(--color-primary)]"}`}
-            >
-              {item.label}
-            </a>
+        <div className="hidden lg:flex items-center gap-8">
+          {NAV_ITEMS.map((item) => (
+            item.isCta ? (
+              <a
+                key={item.label}
+                href={item.href}
+                className="bg-[var(--color-primary)] text-white px-6 py-2 rounded-full text-sm font-medium hover:scale-[0.98] transition-all"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium transition-colors duration-200 text-[var(--color-on-surface)] hover:text-[var(--color-primary)]"
+              >
+                {item.label}
+              </a>
+            )
           ))}
         </div>
 
@@ -100,32 +100,24 @@ export function Navbar() {
             >
               <div className="bg-[var(--color-surface)] rounded-lg p-8 w-full max-w-md text-center transform translate-y-[-100px] transition-all duration-300">
                 <div className="mb-6">
-                  <svg
-                    className="w-12 h-12 mx-auto text-[var(--color-primary)] margin-auto"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                  >
-                    <path d="M3 6h18" />
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-                    <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <svg viewBox="0 0 120 100" fill="currentColor" className="w-12 h-12 mx-auto text-[var(--color-primary)]">
+                    <rect x="16" y="15" width="20" height="70" rx="4" />
+                    <path d="M 46 50 L 81 15 H 106 L 71 50 L 106 85 H 81 Z" />
                   </svg>
                 </div>
                 <h2 className="text-[24px] font-bold tracking-tight" style={{ color: "var(--color-primary)" }}>
-                  Kaiva
+                  KAIVA
                 </h2>
                 <p className="text-[16px] text-[var(--color-on-surface)] mb-8">
-                  Agencia de diseño y desarrollo premium
+                  Trabajadores digitales para empresas.
                 </p>
                 <div className="space-y-3">
-                  {NAV_ITEMS.map((item, index) => (
+                  {NAV_ITEMS.map((item) => (
                     <a
-                      key={index}
+                      key={item.label}
                       href={item.href}
-                      className={`block px-4 py-2 rounded-md transition-colors duration-200 hover:bg-[var(--color-primary)] hover:text-white ${
-                        item.isExternal ? "no-underline" : ""
-                      }`}
+                      className={`block px-4 py-2 rounded-md transition-colors duration-200 hover:bg-[var(--color-primary)] hover:text-white`}
+                      onClick={() => setIsMenuOpen(false)}
                     >
                       {item.label}
                     </a>
