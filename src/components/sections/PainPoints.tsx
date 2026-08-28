@@ -26,7 +26,7 @@ const pains = [
 
 export function PainPoints() {
   return (
-    <section id="producto" className="px-page py-section">
+    <section id="producto" className="bg-surface px-page py-section">
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand">El problema</p>
@@ -42,7 +42,7 @@ export function PainPoints() {
         <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {pains.map((pain) => (
             <StaggerItem key={pain.title}>
-              <div className="h-full rounded-2xl border border-border bg-surface p-6">
+              <div className="h-full rounded-2xl border border-border bg-bg p-6">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-danger-bg text-danger">
                   <pain.icon className="h-5 w-5" />
                 </div>

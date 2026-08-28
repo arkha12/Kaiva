@@ -69,10 +69,10 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-8 text-xs text-ink-subtle"
+            className="mt-4 text-xs text-ink-subtle"
           >
-            Buscamos 3–5 dealers de autos usados para construir esto junto a
-            ustedes, no antes.
+            Gratis durante el piloto · Sin contrato · Buscamos 3–5 dealers
+            para construir esto junto a ustedes.
           </motion.p>
         </div>
 
