@@ -1,43 +1,46 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown, Clock3, Sparkles } from "lucide-react";
+import dynamic from "next/dynamic";
 import { DeviceFrame } from "@/components/motion/DeviceFrame";
 import { FloatingCard } from "@/components/motion/FloatingCard";
 import { PulsingDot } from "@/components/motion/PulsingDot";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { HeroSceneFallback } from "@/components/three/HeroSceneFallback";
+import { SceneBoundary } from "@/components/three/SceneBoundary";
 import { ShimmerButton } from "@/components/ui/ShimmerButton";
+import { useWebGLSupport } from "@/hooks/useWebGLSupport";
 import { DashboardPreview } from "./DashboardPreview";
+
+/* three.js pesa ~600KB: se carga aparte y sólo en cliente. Hasta que baja el
+   chunk se ve el fallback en SVG. */
+const KarvaHeroScene = dynamic(() => import("@/components/three/KarvaHeroScene"), {
+  ssr: false,
+});
 
 const firstLine = ["Tus", "leads", "se", "enfrían"];
 
 export function Hero() {
-  const reduced = useReducedMotion();
+  const webgl = useWebGLSupport();
 
   return (
     <section className="relative overflow-hidden bg-ink px-page pt-32 pb-24 lg:pt-40">
-      <motion.div
+      <div
         aria-hidden
-        animate={
-          reduced
-            ? undefined
-            : { x: [0, 40, -20, 0], y: [0, -30, 20, 0] }
-        }
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute -top-40 right-0 h-[32rem] w-[32rem] rounded-full bg-brand/20 blur-3xl"
-      />
-      <motion.div
-        aria-hidden
-        animate={
-          reduced
-            ? undefined
-            : { x: [0, -30, 30, 0], y: [0, 20, -20, 0] }
-        }
-        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-        className="pointer-events-none absolute top-20 -left-40 h-[28rem] w-[28rem] rounded-full bg-ai/20 blur-3xl"
-      />
+        role="presentation"
+        className="pointer-events-none absolute inset-0 opacity-60 mix-blend-screen"
+      >
+        {webgl ? (
+          <SceneBoundary fallback={<HeroSceneFallback />}>
+            <KarvaHeroScene />
+          </SceneBoundary>
+        ) : (
+          <HeroSceneFallback />
+        )}
+      </div>
 
-      <div className="relative mx-auto max-w-4xl text-center">
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -136,7 +139,7 @@ export function Hero() {
         </motion.p>
       </div>
 
-      <div className="relative mx-auto mt-16 max-w-3xl">
+      <div className="relative z-10 mx-auto mt-16 max-w-3xl">
         <TiltCard max={4}>
           <DeviceFrame>
             <DashboardPreview />
@@ -205,7 +208,7 @@ export function Hero() {
           opacity: { duration: 0.6, delay: 1.5 },
           y: { duration: 1.6, repeat: Infinity, ease: "easeInOut", delay: 1.5 },
         }}
-        className="relative mt-16 flex justify-center text-white/40"
+        className="relative z-10 mt-16 flex justify-center text-white/40"
       >
         <ChevronDown className="h-6 w-6" />
       </motion.a>
