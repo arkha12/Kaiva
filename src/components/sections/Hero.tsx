@@ -1,14 +1,16 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ChevronDown, Clock3, Sparkles } from "lucide-react";
+import { ChevronDown, Clock3, Radar, ShieldCheck, Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { DeviceFrame } from "@/components/motion/DeviceFrame";
 import { FloatingCard } from "@/components/motion/FloatingCard";
+import { HudLabel } from "@/components/motion/HudLabel";
 import { PulsingDot } from "@/components/motion/PulsingDot";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { HeroSceneFallback } from "@/components/three/HeroSceneFallback";
+import { PerspectiveGrid } from "@/components/three/PerspectiveGrid";
 import { SceneBoundary } from "@/components/three/SceneBoundary";
 import { ShimmerButton } from "@/components/ui/ShimmerButton";
 import { useWebGLSupport } from "@/hooks/useWebGLSupport";
@@ -34,6 +36,8 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-ink px-page pt-32 lg:pt-40">
+      <PerspectiveGrid className="pointer-events-none absolute inset-0" />
+
       <div
         aria-hidden
         role="presentation"
@@ -47,6 +51,16 @@ export function Hero() {
           <HeroSceneFallback />
         )}
       </div>
+
+      <HudLabel icon={Radar} delay={1.6} className="top-28 left-[8%]">
+        Tiempo real
+      </HudLabel>
+      <HudLabel icon={ShieldCheck} delay={1.8} className="top-40 right-[10%]">
+        Human-in-the-loop
+      </HudLabel>
+      <HudLabel icon={Sparkles} delay={2} className="bottom-24 left-[14%]">
+        IA activa
+      </HudLabel>
 
       <div className="relative z-10 mx-auto max-w-4xl text-center">
         <motion.div

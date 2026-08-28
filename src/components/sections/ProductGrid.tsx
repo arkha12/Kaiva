@@ -14,6 +14,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { PerspectiveGrid } from "@/components/three/PerspectiveGrid";
 
 const modules = [
   {
@@ -69,8 +70,9 @@ const accentClasses: Record<string, string> = {
 
 export function ProductGrid() {
   return (
-    <section className="bg-ink px-page py-section">
-      <div className="mx-auto max-w-7xl">
+    <section className="relative overflow-hidden bg-ink px-page py-section">
+      <PerspectiveGrid className="pointer-events-none absolute inset-0 opacity-50" />
+      <div className="relative mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">El producto</p>
           <ScrollColorHeading

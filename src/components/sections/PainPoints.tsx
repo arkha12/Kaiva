@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Clock, MessageCircleWarning, PackageSearch, Repeat } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
+import { PerspectiveGrid } from "@/components/three/PerspectiveGrid";
 
 const pains = [
   {
@@ -30,8 +31,9 @@ const pains = [
 
 export function PainPoints() {
   return (
-    <section id="producto" className="bg-ink px-page py-section">
-      <div className="mx-auto max-w-7xl">
+    <section id="producto" className="relative overflow-hidden bg-ink px-page py-section">
+      <PerspectiveGrid className="pointer-events-none absolute inset-0 opacity-50" />
+      <div className="relative mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">El problema</p>
           <ScrollColorHeading

@@ -14,6 +14,7 @@ import { PulsingDot } from "@/components/motion/PulsingDot";
 import { Reveal } from "@/components/motion/Reveal";
 import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { PerspectiveGrid } from "@/components/three/PerspectiveGrid";
 
 const phases = [
   {
@@ -148,8 +149,9 @@ function PhaseGraphic({ type }: { type: (typeof phases)[number]["graphic"] }) {
 
 export function Roadmap() {
   return (
-    <section id="roadmap" className="bg-ink px-page py-section">
-      <div className="mx-auto max-w-5xl">
+    <section id="roadmap" className="relative overflow-hidden bg-ink px-page py-section">
+      <PerspectiveGrid className="pointer-events-none absolute inset-0 opacity-40" />
+      <div className="relative mx-auto max-w-5xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">Hacia dónde vamos</p>
           <ScrollColorHeading
