@@ -5,6 +5,7 @@ import { Hero } from "@/components/sections/Hero";
 import { ModuleMarquee } from "@/components/sections/ModuleMarquee";
 import { PainPoints } from "@/components/sections/PainPoints";
 import { LeadCalculator } from "@/components/sections/LeadCalculator";
+import { ResponseSpeedShowcase } from "@/components/sections/ResponseSpeedShowcase";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { ProductGrid } from "@/components/sections/ProductGrid";
 import { AIPrinciples } from "@/components/sections/AIPrinciples";
@@ -22,6 +23,7 @@ export default function Home() {
         <ModuleMarquee />
         <PainPoints />
         <LeadCalculator />
+        <ResponseSpeedShowcase />
         <HowItWorks />
         <ProductGrid />
         <AIPrinciples />
