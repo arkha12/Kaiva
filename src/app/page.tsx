@@ -12,12 +12,14 @@ import { AIPrinciples } from "@/components/sections/AIPrinciples";
 import { Roadmap } from "@/components/sections/Roadmap";
 import { FAQ } from "@/components/sections/FAQ";
 import { CTA } from "@/components/sections/CTA";
+import { FloatingCTA } from "@/components/ui/FloatingCTA";
 
 export default function Home() {
   return (
     <>
       <ScrollProgressBar />
       <Navbar />
+      <FloatingCTA />
       <main>
         <Hero />
         <ModuleMarquee />

@@ -25,10 +25,8 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 z-50 w-full border-b transition-colors duration-300",
-        scrolled
-          ? "border-border/70 bg-bg/80 backdrop-blur-md"
-          : "border-transparent bg-transparent",
+        "fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-ink/80 backdrop-blur-md transition-[padding] duration-300",
+        scrolled ? "py-0" : "py-1",
       )}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-page">
@@ -38,7 +36,7 @@ export function Navbar() {
             whileTap={{ scale: 0.97 }}
             className="inline-block"
           >
-            <Logo />
+            <Logo dark />
           </motion.span>
         </Link>
 
@@ -51,14 +49,14 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onMouseEnter={() => setHovered(link.href)}
-              className="relative px-3 py-2 text-sm font-medium text-ink-muted transition-colors hover:text-ink"
+              className="relative px-3 py-2 text-sm font-medium text-white/60 transition-colors hover:text-white"
             >
               <span className="relative z-10">{link.label}</span>
               {hovered === link.href && (
                 <motion.span
                   layoutId="nav-hover"
                   transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                  className="absolute inset-0 rounded-full bg-surface shadow-sm"
+                  className="absolute inset-0 rounded-full bg-white/10"
                 />
               )}
             </a>

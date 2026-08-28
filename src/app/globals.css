@@ -16,10 +16,12 @@
   --color-brand: #2e5bff;
   --color-brand-dark: #1d3fcb;
   --color-brand-light: #eaf0ff;
+  --color-brand-glow: #7c9bff; /* variante clara: texto/acentos sobre fondo oscuro */
 
   /* Acento IA — violeta, para todo lo que hace el agente */
   --color-ai: #6d5cff;
   --color-ai-light: #f1eeff;
+  --color-ai-glow: #ab9dff; /* variante clara: texto/acentos sobre fondo oscuro */
 
   /* Estados semánticos */
   --color-success: #17a34a;
