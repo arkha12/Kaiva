@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { ShieldCheck, Zap } from "lucide-react";
+import { FloatingCard } from "@/components/motion/FloatingCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { ShimmerButton } from "@/components/ui/ShimmerButton";
 
@@ -9,7 +11,29 @@ export function CTA() {
 
   return (
     <section id="piloto" className="px-page py-section">
-      <Reveal className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl border border-border bg-ink px-8 py-16 text-center sm:px-16">
+      <div className="relative mx-auto max-w-4xl">
+        <FloatingCard
+          delay={0.2}
+          floatDuration={6}
+          className="absolute -top-6 -left-4 z-10 hidden items-center gap-2 sm:-left-10 sm:flex"
+        >
+          <Zap className="h-4 w-4 text-warning" />
+          <span className="text-xs font-semibold text-white">
+            Onboarding en días, no meses
+          </span>
+        </FloatingCard>
+        <FloatingCard
+          delay={0.4}
+          floatDuration={7}
+          className="absolute -top-6 -right-4 z-10 hidden items-center gap-2 sm:-right-10 sm:flex"
+        >
+          <ShieldCheck className="h-4 w-4 text-success" />
+          <span className="text-xs font-semibold text-white">
+            Human-in-the-loop siempre
+          </span>
+        </FloatingCard>
+
+      <Reveal className="relative overflow-hidden rounded-3xl border border-border bg-ink px-8 py-16 text-center sm:px-16">
         <motion.div
           aria-hidden
           animate={reduced ? undefined : { x: [0, 60, -30, 0], y: [0, -20, 30, 0] }}
@@ -59,6 +83,7 @@ export function CTA() {
           </div>
         </div>
       </Reveal>
+      </div>
     </section>
   );
 }
