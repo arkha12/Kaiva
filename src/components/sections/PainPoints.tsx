@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Clock, MessageCircleWarning, PackageSearch, Repeat } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 
 const pains = [
   {
@@ -33,9 +34,10 @@ export function PainPoints() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">El problema</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            No es falta de inventario. Es falta de velocidad.
-          </h2>
+          <ScrollColorHeading
+            text="No es falta de inventario. Es falta de velocidad."
+            className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          />
           <p className="mt-4 text-lg text-white/60">
             Antes de construir un marketplace, Karva resuelve lo que un dealer
             siente todos los días.

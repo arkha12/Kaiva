@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 
 const faqs = [
   {
@@ -32,9 +33,10 @@ export function FAQ() {
       <div className="mx-auto max-w-3xl">
         <Reveal className="text-center">
           <p className="text-sm font-semibold text-brand">Preguntas frecuentes</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Lo que suelen preguntarnos los dealers
-          </h2>
+          <ScrollColorHeading
+            text="Lo que suelen preguntarnos los dealers"
+            className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+          />
         </Reveal>
 
         <Stagger className="mt-10 flex flex-col gap-3" step={0.06}>

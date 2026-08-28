@@ -12,6 +12,7 @@ import {
 import { DeviceFrame } from "@/components/motion/DeviceFrame";
 import { PulsingDot } from "@/components/motion/PulsingDot";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { TiltCard } from "@/components/motion/TiltCard";
 
 const phases = [
@@ -151,9 +152,10 @@ export function Roadmap() {
       <div className="mx-auto max-w-5xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">Hacia dónde vamos</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Del AI Dealer OS al marketplace automotriz AI-native.
-          </h2>
+          <ScrollColorHeading
+            text="Del AI Dealer OS al marketplace automotriz AI-native."
+            className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          />
           <p className="mt-4 text-lg text-white/60">
             No construimos las cinco fases a la vez. Cada una sólo se habilita
             cuando la anterior demuestra valor real.

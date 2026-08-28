@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck, UserCheck, FileClock } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 
 const principles = [
   {
@@ -30,9 +31,10 @@ export function AIPrinciples() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-ai">IA con supervisión</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            AI-native no significa sin control humano.
-          </h2>
+          <ScrollColorHeading
+            text="AI-native no significa sin control humano."
+            className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+          />
         </Reveal>
 
         <Stagger className="mt-12 grid gap-6 lg:grid-cols-3">

@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { CalendarCheck, Inbox, Sparkles, TrendingUp } from "lucide-react";
 import { useRef } from "react";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 
 const steps = [
   {
@@ -41,9 +42,10 @@ export function HowItWorks() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand">Cómo funciona</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            De lead a cita, sin que nadie lo empuje a mano.
-          </h2>
+          <ScrollColorHeading
+            text="De lead a cita, sin que nadie lo empuje a mano."
+            className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+          />
         </Reveal>
 
         <div ref={containerRef} className="relative mt-16 max-w-2xl">

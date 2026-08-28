@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck, Zap } from "lucide-react";
 import { FloatingCard } from "@/components/motion/FloatingCard";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { ShimmerButton } from "@/components/ui/ShimmerButton";
 
 export function CTA() {
@@ -51,9 +52,10 @@ export function CTA() {
           <p className="text-sm font-semibold text-brand-light/80">
             Buscamos 3–5 dealers piloto
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Úsalo gratis durante el piloto. A cambio, nos dices qué no sirve.
-          </h2>
+          <ScrollColorHeading
+            text="Úsalo gratis durante el piloto. A cambio, nos dices qué no sirve."
+            className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          />
           <p className="mx-auto mt-4 max-w-xl text-white/70">
             No estamos vendiendo una demo terminada. Estamos construyendo el
             producto junto a los dealers que lo van a usar todos los días.

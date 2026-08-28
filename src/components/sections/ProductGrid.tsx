@@ -11,6 +11,7 @@ import {
   Warehouse,
 } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { SpotlightCard } from "@/components/motion/SpotlightCard";
 import { TiltCard } from "@/components/motion/TiltCard";
 
@@ -72,9 +73,10 @@ export function ProductGrid() {
       <div className="mx-auto max-w-7xl">
         <Reveal className="max-w-2xl">
           <p className="text-sm font-semibold text-brand-glow">El producto</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Un Dealer OS, no seis herramientas sueltas.
-          </h2>
+          <ScrollColorHeading
+            text="Un Dealer OS, no seis herramientas sueltas."
+            className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          />
           <p className="mt-4 text-lg text-white/60">
             Los módulos que un dealer usa a diario, sobre un mismo modelo de
             datos — no un CRM genérico con IA pegada encima.

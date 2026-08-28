@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
+import { ScrollColorHeading } from "@/components/motion/ScrollColorHeading";
 import { cn } from "@/lib/utils";
 
 function estimateLossPercent(responseMinutes: number) {
@@ -44,9 +45,10 @@ export function LeadCalculator() {
           <p className="text-sm font-semibold text-brand">
             ¿Cuánto te está costando ahora?
           </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-            Calcula tu riesgo de leads perdidos
-          </h2>
+          <ScrollColorHeading
+            text="Calcula tu riesgo de leads perdidos"
+            className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-4xl"
+          />
         </Reveal>
 
         <Reveal
