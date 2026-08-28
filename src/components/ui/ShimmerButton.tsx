@@ -1,8 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 const variantClasses = {
@@ -28,11 +33,32 @@ export function ShimmerButton({
   variant?: keyof typeof variantClasses;
 }) {
   const isExternal = href.startsWith("mailto:") || href.startsWith("http");
+  const reduced = useReducedMotion();
+
+  const rawX = useMotionValue(0);
+  const rawY = useMotionValue(0);
+  const x = useSpring(rawX, { stiffness: 300, damping: 20 });
+  const y = useSpring(rawY, { stiffness: 300, damping: 20 });
+
+  function handleMouseMove(e: MouseEvent<HTMLSpanElement>) {
+    if (reduced) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    rawX.set((e.clientX - rect.left - rect.width / 2) * 0.25);
+    rawY.set((e.clientY - rect.top - rect.height / 2) * 0.25);
+  }
+
+  function handleMouseLeave() {
+    rawX.set(0);
+    rawY.set(0);
+  }
 
   const content = (
     <motion.span
       whileHover="hover"
       whileTap={{ scale: 0.97 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x, y }}
       className={cn(
         "group relative inline-flex items-center overflow-hidden rounded-full px-6 py-3 text-sm font-semibold transition-colors",
         variantClasses[variant],

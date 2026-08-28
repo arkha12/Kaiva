@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
@@ -86,17 +87,50 @@ export function LeadCalculator() {
             </label>
           </div>
 
-          <div className="mt-10 flex flex-col items-center gap-3 border-t border-border pt-8 text-center">
-            <span
+          <div className="mt-8 h-2 w-full overflow-hidden rounded-full bg-surface-muted">
+            <motion.div
+              animate={{ width: `${lossPercent}%` }}
+              transition={{ type: "spring", stiffness: 120, damping: 20 }}
               className={cn(
-                "rounded-full px-3 py-1 text-xs font-semibold",
-                toneClasses[risk.tone],
+                "h-full rounded-full",
+                risk.tone === "success" && "bg-success",
+                risk.tone === "warning" && "bg-warning",
+                risk.tone === "danger" && "bg-danger",
               )}
-            >
-              {risk.label}
-            </span>
-            <p className="text-4xl font-bold tracking-tight text-ink">
-              ~{lostLeads} leads/mes
+            />
+          </div>
+
+          <div className="mt-8 flex flex-col items-center gap-3 border-t border-border pt-8 text-center">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={risk.label}
+                initial={{ opacity: 0, scale: 0.85 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.85 }}
+                transition={{ duration: 0.2 }}
+                className={cn(
+                  "rounded-full px-3 py-1 text-xs font-semibold",
+                  toneClasses[risk.tone],
+                )}
+              >
+                {risk.label}
+              </motion.span>
+            </AnimatePresence>
+
+            <p className="flex items-baseline gap-2 text-4xl font-bold tracking-tight text-ink">
+              ~
+              <AnimatePresence mode="popLayout">
+                <motion.span
+                  key={lostLeads}
+                  initial={{ y: 12, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -12, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {lostLeads}
+                </motion.span>
+              </AnimatePresence>
+              leads/mes
             </p>
             <p className="max-w-sm text-sm text-ink-muted">
               se enfrían antes de que alguien les responda, a este ritmo.

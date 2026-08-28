@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { Reveal } from "@/components/motion/Reveal";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const faqs = [
   {
@@ -37,11 +37,11 @@ export function FAQ() {
           </h2>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-10 flex flex-col gap-3">
+        <Stagger className="mt-10 flex flex-col gap-3" step={0.06}>
           {faqs.map((faq, i) => {
             const isOpen = open === i;
             return (
-              <div
+              <StaggerItem
                 key={faq.q}
                 className="overflow-hidden rounded-2xl border border-border bg-bg"
               >
@@ -68,10 +68,10 @@ export function FAQ() {
                 >
                   <p className="px-6 pb-5 text-sm text-ink-muted">{faq.a}</p>
                 </motion.div>
-              </div>
+              </StaggerItem>
             );
           })}
-        </Reveal>
+        </Stagger>
       </div>
     </section>
   );

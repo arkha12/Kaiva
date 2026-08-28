@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Clock, MessageCircleWarning, PackageSearch, Repeat } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
@@ -42,10 +45,14 @@ export function PainPoints() {
         <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {pains.map((pain) => (
             <StaggerItem key={pain.title}>
-              <div className="h-full rounded-2xl border border-border bg-bg p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-danger-bg text-danger">
+              <div className="group h-full rounded-2xl border border-border bg-bg p-6 transition-transform hover:-translate-y-1">
+                <motion.div
+                  whileHover={{ scale: 1.12, rotate: -6 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl bg-danger-bg text-danger"
+                >
                   <pain.icon className="h-5 w-5" />
-                </div>
+                </motion.div>
                 <h3 className="mt-4 font-semibold text-ink">{pain.title}</h3>
                 <p className="mt-2 text-sm text-ink-muted">{pain.body}</p>
               </div>

@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck, UserCheck, FileClock } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
@@ -20,6 +23,8 @@ const principles = [
 ];
 
 export function AIPrinciples() {
+  const reduced = useReducedMotion();
+
   return (
     <section className="bg-surface px-page py-section">
       <div className="mx-auto max-w-7xl">
@@ -34,8 +39,20 @@ export function AIPrinciples() {
           {principles.map((p) => (
             <StaggerItem key={p.title}>
               <div className="h-full rounded-2xl border border-ai/20 bg-ai-light/40 p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-ai text-white">
-                  <p.icon className="h-5 w-5" />
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-ai text-white">
+                  {!reduced && (
+                    <motion.span
+                      aria-hidden
+                      className="absolute inset-0 rounded-xl bg-ai"
+                      animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
+                      transition={{
+                        duration: 2.2,
+                        repeat: Infinity,
+                        ease: "easeOut",
+                      }}
+                    />
+                  )}
+                  <p.icon className="relative h-5 w-5" />
                 </div>
                 <h3 className="mt-4 font-semibold text-ink">{p.title}</h3>
                 <p className="mt-2 text-sm text-ink-muted">{p.body}</p>

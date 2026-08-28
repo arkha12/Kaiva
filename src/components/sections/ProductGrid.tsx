@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import {
   Inbox,
   ListChecks,
@@ -7,6 +10,8 @@ import {
   Warehouse,
 } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { SpotlightCard } from "@/components/motion/SpotlightCard";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 const modules = [
   {
@@ -72,15 +77,19 @@ export function ProductGrid() {
         <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {modules.map((mod) => (
             <StaggerItem key={mod.title}>
-              <div className="h-full rounded-2xl border border-border bg-surface p-6 transition-shadow hover:shadow-lg hover:shadow-ink/5">
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-xl ${accentClasses[mod.accent]}`}
-                >
-                  <mod.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 font-semibold text-ink">{mod.title}</h3>
-                <p className="mt-2 text-sm text-ink-muted">{mod.body}</p>
-              </div>
+              <TiltCard max={5} className="h-full">
+                <SpotlightCard className="h-full rounded-2xl border border-border bg-surface p-6 transition-shadow hover:shadow-lg hover:shadow-ink/5">
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 6 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${accentClasses[mod.accent]}`}
+                  >
+                    <mod.icon className="h-5 w-5" />
+                  </motion.div>
+                  <h3 className="mt-4 font-semibold text-ink">{mod.title}</h3>
+                  <p className="mt-2 text-sm text-ink-muted">{mod.body}</p>
+                </SpotlightCard>
+              </TiltCard>
             </StaggerItem>
           ))}
         </Stagger>

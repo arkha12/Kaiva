@@ -1,4 +1,5 @@
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { PulsingDot } from "@/components/motion/PulsingDot";
 
 const phases = [
   {
@@ -52,17 +53,18 @@ export function Roadmap() {
           {phases.map((phase) => (
             <StaggerItem key={phase.n}>
               <div
-                className={`h-full rounded-2xl border p-5 ${
+                className={`h-full rounded-2xl border p-5 transition-transform hover:-translate-y-1 ${
                   phase.status === "now"
                     ? "border-brand bg-brand-light"
                     : "border-border bg-surface"
                 }`}
               >
                 <span
-                  className={`text-xs font-bold ${
+                  className={`flex items-center gap-1.5 text-xs font-bold ${
                     phase.status === "now" ? "text-brand" : "text-ink-subtle"
                   }`}
                 >
+                  {phase.status === "now" && <PulsingDot />}
                   {phase.n}
                   {phase.status === "now" && " · Ahora"}
                 </span>
