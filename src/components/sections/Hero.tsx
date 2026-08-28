@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ShimmerButton } from "@/components/ui/ShimmerButton";
 import { DashboardPreview } from "./DashboardPreview";
 
 export function Hero() {
@@ -55,12 +56,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="mt-8 flex flex-wrap items-center gap-4"
           >
-            <a
-              href="#piloto"
-              className="rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-brand/30 transition-colors hover:bg-brand-dark"
-            >
-              Solicita ser dealer piloto
-            </a>
+            <ShimmerButton href="#piloto">Solicita ser dealer piloto</ShimmerButton>
             <a
               href="#como-funciona"
               className="text-sm font-semibold text-ink transition-colors hover:text-brand"
