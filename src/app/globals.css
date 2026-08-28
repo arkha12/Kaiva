@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+
+  /* Neutrales — fondo frío, cercano al dashboard de referencia */
+  --color-bg: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f0f1f6;
+  --color-border: #e4e7ee;
+  --color-ink: #0b1220;
+  --color-ink-muted: #5b6472;
+  --color-ink-subtle: #8a91a1;
+
+  /* Marca — azul primario */
+  --color-brand: #2e5bff;
+  --color-brand-dark: #1d3fcb;
+  --color-brand-light: #eaf0ff;
+
+  /* Acento IA — violeta, para todo lo que hace el agente */
+  --color-ai: #6d5cff;
+  --color-ai-light: #f1eeff;
+
+  /* Estados semánticos */
+  --color-success: #17a34a;
+  --color-success-bg: #ecfdf3;
+  --color-warning: #f59e0b;
+  --color-warning-bg: #fff7e6;
+  --color-danger: #e5484d;
+  --color-danger-bg: #fdecec;
+
+  --spacing-page: 1.5rem;
+  --spacing-section: 6rem;
+}
+
+@media (min-width: 640px) {
+  @theme {
+    --spacing-page: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  @theme {
+    --spacing-page: 4rem;
+    --spacing-section: 8rem;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  ::selection {
+    background-color: var(--color-brand);
+    color: white;
+  }
+}
+
+@utility px-page {
+  padding-left: var(--spacing-page);
+  padding-right: var(--spacing-page);
+}
+
+@utility py-section {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+}
+
+/* Sin JS, todo lo que se revela con framer-motion debe verse igual */
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
