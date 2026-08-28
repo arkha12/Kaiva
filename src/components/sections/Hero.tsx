@@ -1,8 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Clock3, Sparkles } from "lucide-react";
 import dynamic from "next/dynamic";
+import { useRef } from "react";
 import { DeviceFrame } from "@/components/motion/DeviceFrame";
 import { FloatingCard } from "@/components/motion/FloatingCard";
 import { PulsingDot } from "@/components/motion/PulsingDot";
@@ -23,9 +24,16 @@ const firstLine = ["Tus", "leads", "se", "enfrían"];
 
 export function Hero() {
   const webgl = useWebGLSupport();
+  const pinRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: pinRef,
+    offset: ["start start", "end end"],
+  });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.82, 1.18]);
+  const badgeOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
 
   return (
-    <section className="relative overflow-hidden bg-ink px-page pt-32 pb-24 lg:pt-40">
+    <section className="relative overflow-hidden bg-ink px-page pt-32 lg:pt-40">
       <div
         aria-hidden
         role="presentation"
@@ -139,66 +147,6 @@ export function Hero() {
         </motion.p>
       </div>
 
-      <div className="relative z-10 mx-auto mt-16 max-w-3xl">
-        <TiltCard max={4}>
-          <DeviceFrame>
-            <DashboardPreview />
-          </DeviceFrame>
-        </TiltCard>
-
-        <FloatingCard
-          delay={0.9}
-          floatDuration={7}
-          className="absolute -top-8 -left-6 hidden w-44 md:block lg:-left-24"
-        >
-          <p className="text-[11px] text-white/50">Ventas potenciales hoy</p>
-          <p className="mt-1 text-lg font-bold text-white">$128,450</p>
-          <p className="mt-0.5 text-[11px] font-medium text-success">
-            ↑ 18% vs ayer
-          </p>
-        </FloatingCard>
-
-        <FloatingCard
-          delay={1.05}
-          floatDuration={8}
-          className="absolute -top-4 -right-6 hidden w-40 md:block lg:-right-20"
-        >
-          <p className="text-[11px] text-white/50">Vehículos en riesgo</p>
-          <p className="mt-1 text-lg font-bold text-white">15</p>
-          <p className="mt-0.5 text-[11px] font-medium text-warning">
-            ↑ 3 vs ayer
-          </p>
-        </FloatingCard>
-
-        <FloatingCard
-          delay={1.2}
-          floatDuration={6.5}
-          className="absolute -bottom-6 -left-10 hidden items-center gap-2 md:flex lg:-left-28"
-        >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white">
-            <Clock3 className="h-4 w-4" />
-          </div>
-          <div>
-            <p className="text-[11px] text-white/50">Karva responde en</p>
-            <p className="text-sm font-bold text-white">~30 seg</p>
-          </div>
-        </FloatingCard>
-
-        <FloatingCard
-          delay={1.35}
-          floatDuration={7.5}
-          className="absolute -right-8 -bottom-10 hidden items-center gap-2 md:flex lg:-right-24"
-        >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ai text-white">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <div>
-            <p className="text-[11px] text-white/50">Buscamos</p>
-            <p className="text-sm font-bold text-white">3–5 dealers piloto</p>
-          </div>
-        </FloatingCard>
-      </div>
-
       <motion.a
         href="#producto"
         aria-label="Ver más"
@@ -212,6 +160,74 @@ export function Hero() {
       >
         <ChevronDown className="h-6 w-6" />
       </motion.a>
+
+      {/* Pin-and-zoom: el mockup crece con el scroll mientras las mini-stats se
+          quedan fijas en pantalla — mismo patrón de outcrowd.io. */}
+      <div ref={pinRef} className="relative z-10 mt-8 h-[180vh]">
+        <div className="sticky top-24 mx-auto flex h-[65vh] max-w-3xl items-center justify-center">
+          <motion.div style={{ scale }} className="w-full">
+            <TiltCard max={4}>
+              <DeviceFrame>
+                <DashboardPreview />
+              </DeviceFrame>
+            </TiltCard>
+          </motion.div>
+
+          <motion.div style={{ opacity: badgeOpacity }}>
+            <FloatingCard
+              delay={0}
+              floatDuration={7}
+              className="absolute -top-8 -left-6 hidden w-44 md:block lg:-left-24"
+            >
+              <p className="text-[11px] text-white/50">Ventas potenciales hoy</p>
+              <p className="mt-1 text-lg font-bold text-white">$128,450</p>
+              <p className="mt-0.5 text-[11px] font-medium text-success">
+                ↑ 18% vs ayer
+              </p>
+            </FloatingCard>
+
+            <FloatingCard
+              delay={0.15}
+              floatDuration={8}
+              className="absolute -top-4 -right-6 hidden w-40 md:block lg:-right-20"
+            >
+              <p className="text-[11px] text-white/50">Vehículos en riesgo</p>
+              <p className="mt-1 text-lg font-bold text-white">15</p>
+              <p className="mt-0.5 text-[11px] font-medium text-warning">
+                ↑ 3 vs ayer
+              </p>
+            </FloatingCard>
+
+            <FloatingCard
+              delay={0.3}
+              floatDuration={6.5}
+              className="absolute -bottom-6 -left-10 hidden items-center gap-2 md:flex lg:-left-28"
+            >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white">
+                <Clock3 className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-[11px] text-white/50">Karva responde en</p>
+                <p className="text-sm font-bold text-white">~30 seg</p>
+              </div>
+            </FloatingCard>
+
+            <FloatingCard
+              delay={0.45}
+              floatDuration={7.5}
+              className="absolute -right-8 -bottom-10 hidden items-center gap-2 md:flex lg:-right-24"
+            >
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ai text-white">
+                <Sparkles className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-[11px] text-white/50">Buscamos</p>
+                <p className="text-sm font-bold text-white">3–5 dealers piloto</p>
+              </div>
+            </FloatingCard>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }
