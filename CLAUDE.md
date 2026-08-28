@@ -17,9 +17,20 @@ OS MVP) y muestra el roadmap completo como visión, sin prometer fechas.
 Next.js 16 (App Router) + React 19 + Tailwind v4 + `framer-motion`.
 **Sin GSAP y sin three.js**: a diferencia de KAIVA, aquí no hay escena 3D ni
 scroll-scrubbing que lo justifique; todo el motion (entradas, stagger, línea
-de progreso de `HowItWorks`) se resuelve con `framer-motion` (`whileInView`,
-`useScroll`/`useTransform`). No sumar una librería nueva mientras
-`framer-motion` siga cubriendo el caso.
+de progreso de `HowItWorks`, el pin-and-shrink de `ResponseSpeedShowcase`) se
+resuelve con `framer-motion` (`whileInView`, `useScroll`/`useTransform`) +
+`position: sticky` para el pin. No sumar una librería nueva mientras
+`framer-motion` siga cubriendo el caso — ni siquiera para efectos que en
+otros sitios usan GSAP/Locomotive (el pin-and-shrink inspirado en
+wisprflow.ai se hizo sólo con `sticky` + scroll progress).
+
+Primitivos de motion reutilizables en `src/components/motion/`: `Reveal` /
+`Stagger` (entradas), `TiltCard` (tilt 3D por mouse-move), `SpotlightCard`
+(glow que sigue el cursor, vía CSS custom properties escritas directo al DOM
+para no re-renderizar en cada mousemove), `PulsingDot` (indicador tipo
+radar), `ScrollProgressBar`, `CurvedMarqueeText` (texto en loop sobre un
+`<textPath>` SVG, offset animado por `requestAnimationFrame`). Todos los que
+animan en bucle infinito respetan `useReducedMotion()`.
 
 `next.config.ts` no tiene `output: "export"` todavía — no se ha definido
 plataforma de despliegue para Karva (KAIVA usa Firebase Hosting por una
@@ -53,9 +64,13 @@ marcas si ambas rama se ven una junto a otra.
 
 ## Verificación
 
-`npm run build`, `npm run lint` y `npx tsc --noEmit` pasan limpios. No se
-pudo verificar visualmente en navegador real en esta sesión (extensión de
-Chrome no conectada) — pendiente antes de dar el prototipo por validado.
+`npm run build`, `npm run lint` y `npx tsc --noEmit` pasan limpios. Verificado
+visualmente en Chrome real (incluyendo interacciones de hover/scroll).
+
+**Cuidado con Turbopack + `.next`:** borrar `.next` (`rm -rf .next`) mientras
+el dev server sigue corriendo corrompe su caché persistente y lo deja
+sirviendo 500 hasta reiniciarlo. Siempre matar el proceso primero, luego
+borrar `.next`, luego levantar de nuevo — nunca en el otro orden.
 
 ## Pendiente / no resuelto en este prototipo
 
