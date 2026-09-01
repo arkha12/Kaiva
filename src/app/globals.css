@@ -3,65 +3,241 @@
 @theme {
   --font-sans: var(--font-inter);
 
-  /* Neutrales — fondo frío, cercano al dashboard de referencia */
-  --color-bg: #f6f7fb;
-  --color-surface: #ffffff;
-  --color-surface-muted: #f0f1f6;
-  --color-border: #e4e7ee;
-  --color-ink: #0b1220;
-  --color-ink-muted: #5b6472;
-  --color-ink-subtle: #8a91a1;
+  /* Página clara, contenedores oscuros.
+     El fondo de la página es blanco y el texto navy; todo lo que es "una caja"
+     (tarjeta, mockup, panel) va en negro. Los valores oscuros no viven aquí
+     sino en la utilidad `panel`, más abajo: ahí se redefinen estos mismos
+     tokens para los descendientes, así que una tarjeta oscura no necesita que
+     su contenido cambie de clase. */
+  --color-bg: #ffffff;
+  --color-surface: #f4f6fb;
+  --color-surface-muted: #e9edf6;
+  --color-border: #e2e7f1;
+  --color-ink: #070a14;
+  --color-ink-muted: #515b70;
+  --color-ink-subtle: #838ca0;
 
-  /* Marca — azul primario */
+  /* Marca — azul eléctrico */
   --color-brand: #2e5bff;
   --color-brand-dark: #1d3fcb;
   --color-brand-light: #eaf0ff;
-  --color-brand-glow: #7c9bff; /* variante clara: texto/acentos sobre fondo oscuro */
+  --color-brand-glow: #7c9bff; /* variante clara: sobre los paneles negros */
 
-  /* Acento IA — violeta, para todo lo que hace el agente */
+  /* Acento IA — violeta, para todo lo que hace o toca el agente */
   --color-ai: #6d5cff;
   --color-ai-light: #f1eeff;
-  --color-ai-glow: #ab9dff; /* variante clara: texto/acentos sobre fondo oscuro */
+  --color-ai-glow: #ab9dff;
 
-  /* Estados semánticos */
-  --color-success: #17a34a;
-  --color-success-bg: #ecfdf3;
-  --color-warning: #f59e0b;
-  --color-warning-bg: #fff7e6;
-  --color-danger: #e5484d;
-  --color-danger-bg: #fdecec;
+  /* Estados semánticos, calibrados sobre blanco. Dentro de `panel` se
+     recalibran para leerse sobre negro. */
+  --color-success: #15803d;
+  --color-success-bg: #e8f8ee;
+  --color-warning: #b45309;
+  --color-warning-bg: #fdf3e2;
+  --color-danger: #be2f34;
+  --color-danger-bg: #fdeded;
 
-  --spacing-page: 1.5rem;
-  --spacing-section: 6rem;
+  /* Elevación. Sobre blanco una sombra negra se ve sucia: van teñidas de navy.
+     Los paneles oscuros suben a una sombra más profunda para despegarse. */
+  --shadow-card: 0 1px 2px rgba(7, 10, 20, 0.05),
+    0 12px 32px -16px rgba(7, 10, 20, 0.16);
+  --shadow-lift: 0 2px 6px rgba(7, 10, 20, 0.07),
+    0 32px 70px -28px rgba(7, 10, 20, 0.35);
+
+  /* Fluidos, no por breakpoint. Un `@theme` anidado en `@media` NO funciona en
+     Tailwind v4: las variables se emiten en `:root` sin la condición, así que
+     ganaba siempre la última declaración y el teléfono heredaba los 4rem de
+     escritorio — 128px de padding lateral en una pantalla de 390px.
+     `clamp()` cubre el mismo rango (1.5rem → 2.5rem a 640px → 4rem a 1024px)
+     sin depender de media queries. */
+  --spacing-page: clamp(1.5rem, 6.25vw, 4rem);
+  --spacing-section: clamp(5rem, 8.5vw, 9rem);
 }
 
-@media (min-width: 640px) {
-  @theme {
-    --spacing-page: 2.5rem;
+/* Keyframes que esperan los componentes del registry. Normalmente las escribe
+   `shadcn init`, pero aquí no se corrió el init para no dejar que reescribiera
+   el @theme de Karva: se añaden a mano. */
+@theme {
+  --animate-accordion-down: accordion-down 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-accordion-up: accordion-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-marquee: marquee var(--duration, 40s) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
   }
 }
 
-@media (min-width: 1024px) {
-  @theme {
-    --spacing-page: 4rem;
-    --spacing-section: 8rem;
-  }
+/* ---------------------------------------------------------------------------
+   Puente para Watermelon UI (registry compatible con shadcn).
+   Sus componentes están escritos contra tokens semánticos (--primary,
+   --background, --border, --ring...). Sin este mapeo heredarían los grises por
+   defecto de shadcn y se verían como piezas de otra marca pegadas encima.
+   Aquí cada token semántico apunta a la paleta de Karva, así que un
+   <Button> del registry sale azul marca sin tocar su código.
+
+   La landing es light-only: no hay clase `.dark`, así que las variantes `dark:`
+   de sus componentes nunca se activan. Dentro de un `.panel` los tokens
+   semánticos se recalculan solos, porque apuntan a los `--color-*` de Karva y
+   la utilidad los redefine en el propio elemento.
+   --------------------------------------------------------------------------- */
+:root {
+  --background: var(--color-bg);
+  --foreground: var(--color-ink);
+  --card: var(--color-bg);
+  --card-foreground: var(--color-ink);
+  --popover: var(--color-bg);
+  --popover-foreground: var(--color-ink);
+  --primary: var(--color-brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--color-surface);
+  --secondary-foreground: var(--color-ink);
+  --muted: var(--color-surface);
+  --muted-foreground: var(--color-ink-muted);
+  --accent: var(--color-surface);
+  --accent-foreground: var(--color-ink);
+  --destructive: var(--color-danger);
+  --border: var(--color-border);
+  --input: var(--color-border);
+  --ring: var(--color-brand);
+  --radius: 0.75rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  /* Ojo: `--color-border` NO se remapea aquí. `:root` ya define
+     `--border: var(--color-border)`, así que devolverlo con
+     `--color-border: var(--border)` cierra un ciclo: las dos variables quedan
+     inválidas, `border-border` pierde su valor y CSS cae a `currentColor`. El
+     síntoma era que todos los bordes tomaban el color del texto, y dentro de
+     un panel oscuro salían blancos. `border-border` usa directamente el token
+     de la paleta, que es lo que `panel` puede sobreescribir. */
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
+  /* Nada de `scroll-behavior: smooth`: Lenis ya interpola el scroll y el
+     smooth nativo compite con él (cada uno mueve scrollTop en el mismo
+     frame), que es justo lo que se siente como tirones al hacer scroll.
+     Las clases .lenis las pone la librería en <html> al montarse. */
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   body {
     background-color: var(--color-bg);
     color: var(--color-ink);
+    overflow-x: clip;
   }
 
   ::selection {
     background-color: var(--color-brand);
     color: white;
   }
+}
+
+/* ---------------------------------------------------------------------------
+   `panel`: el contenedor oscuro.
+
+   La página es clara y las cajas son negras. En vez de reescribir la clase de
+   cada texto, borde y estado dentro de cada tarjeta, esta utilidad **redefine
+   los mismos tokens de color en el propio elemento**. Como las utilidades de
+   Tailwind v4 compilan a `var(--color-…)`, todo lo que cuelga debajo hereda la
+   versión oscura sin cambiar una sola clase: un `text-ink-muted` dentro de un
+   panel sale gris claro, y fuera sigue saliendo gris oscuro.
+
+   Los acentos también se recalibran, no sólo los neutrales: el azul marca a
+   #2e5bff sobre negro se hunde, así que dentro del panel sube a su variante
+   `glow`. Lo mismo con verde, ámbar y rojo, que sobre blanco tienen que ser
+   oscuros y sobre negro tienen que ser brillantes.
+   --------------------------------------------------------------------------- */
+@utility panel {
+  --color-bg: #0b0e16;
+  --color-surface: #141926;
+  --color-surface-muted: #1d2432;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-ink: #f4f6fb;
+  --color-ink-muted: #98a0b4;
+  --color-ink-subtle: #6c748a;
+
+  --color-brand: #7c9bff;
+  --color-brand-light: rgba(46, 91, 255, 0.18);
+  --color-ai: #ab9dff;
+  --color-ai-light: rgba(109, 92, 255, 0.18);
+
+  --color-success: #34d399;
+  --color-success-bg: rgba(52, 211, 153, 0.14);
+  --color-warning: #fbbf24;
+  --color-warning-bg: rgba(251, 191, 36, 0.14);
+  --color-danger: #f87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.14);
+
+  background-color: var(--color-bg);
+  color: var(--color-ink);
 }
 
 @utility px-page {
@@ -74,16 +250,116 @@
   padding-bottom: var(--spacing-section);
 }
 
-/* Sin JS, todo lo que se revela con framer-motion debe verse igual */
+/* Escala tipográfica fluida.
+   `clamp()` en vez de saltos por breakpoint: el tamaño crece de forma continua
+   con el viewport, así que no hay un punto donde el titular "brinca". El
+   tracking se cierra conforme sube el tamaño — a 7rem el espaciado por defecto
+   de Inter se ve suelto. */
+@utility text-display {
+  /* El mínimo manda por debajo de ~640px: a 3rem el titular del hero se comía
+     la pantalla en un teléfono. 2.5rem deja ~4 líneas en 375px. */
+  font-size: clamp(2.5rem, 6.4vw, 5.75rem);
+  line-height: 0.96;
+  letter-spacing: -0.038em;
+  text-wrap: balance;
+}
+
+@utility text-h2 {
+  font-size: clamp(1.875rem, 4vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.032em;
+  text-wrap: balance;
+}
+
+@utility text-h3 {
+  font-size: clamp(1.15rem, 1.6vw, 1.55rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+@utility text-lead {
+  font-size: clamp(1.0625rem, 1.45vw, 1.3rem);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+@utility text-body {
+  font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* Eyebrow de sección: el KARVA AI / DOCUMENT AI / EARLY ACCESS del brief. */
+@utility text-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Texto corrido justificado (bordes a ras por los dos lados).
+
+   `hyphens: none` explícito: la landing justifica sin partir palabras, no hay
+   guiones a final de línea. Es el valor por defecto, pero se declara aquí para
+   que la utilidad sea autosuficiente y para apagar cualquier `hyphens-auto`
+   que se cuele en el mismo elemento.
+
+   `text-justified-center` es para los bloques centrados: las líneas quedan a
+   ras y sólo la última se centra, así la composición sigue siendo simétrica.
+
+   **No combinar con `text-display` / `text-h2` / `text-h3`.** Esos traen
+   `text-wrap: balance`, que acorta todas las líneas a propósito; justificarlas
+   después deja huecos enormes entre palabras. Y no sirve apagarlo desde aquí:
+   Tailwind emite estas utilidades *antes* que las de la escala tipográfica, así
+   que en un empate de propiedad gana la escala. El `text-wrap: pretty` de
+   `text-lead` / `text-body` sí es inofensivo — sólo cuida la última línea, que
+   con justificado es justamente la que no se estira. */
+@utility text-justified {
+  text-align: justify;
+  text-align-last: start;
+  hyphens: none;
+}
+
+@utility text-justified-center {
+  text-align: justify;
+  text-align-last: center;
+  hyphens: none;
+}
+
+/* SplitText enmascara cada línea con este contenedor; el padding evita que el
+   clip corte las colas de las "g"/"y" al terminar la entrada. */
+.split-line-mask {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+/* Sin JS, todo lo que anima GSAP al entrar al viewport debe verse igual */
 @media (scripting: none) {
-  [data-reveal] {
+  [data-gsap] {
     opacity: 1 !important;
     transform: none !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .animate-pulse-dot {
+    animation: none !important;
   }
+}
+
+@keyframes pulse-dot {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulse-dot 1.6s ease-out infinite;
 }
