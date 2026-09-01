@@ -3,7 +3,6 @@
 import { Sparkles } from "lucide-react";
 import { FloatingCard } from "@/components/motion/FloatingCard";
 import { LiveInsightPanel, type InsightTab } from "@/components/motion/LiveInsightPanel";
-import { PulsingDot } from "@/components/motion/PulsingDot";
 import { Reveal } from "@/components/motion/Reveal";
 import { SplitHeading } from "@/components/motion/SplitHeading";
 import { ShimmerButton } from "@/components/ui/ShimmerButton";
@@ -146,18 +145,11 @@ export function Hero() {
   return (
     <section id="hero" className="relative px-page pt-28 pb-24 sm:pt-32 sm:pb-32">
       <div className="mx-auto max-w-3xl text-center">
-        <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-1.5 text-sm font-medium text-ink-muted">
-            <PulsingDot className="text-ai" />
-            AI Operating System for Automotive Sales
-          </span>
-        </Reveal>
-
         <SplitHeading
           as="h1"
           onLoad
           text="Vende más autos. Más rápido. Con IA."
-          className="mt-7 text-display font-bold text-ink"
+          className="text-display font-bold text-ink"
         />
 
         <Reveal delay={0.1}>
