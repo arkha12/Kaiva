@@ -12,9 +12,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const title = "KAIVA | Automatización, IA y software a medida para empresas";
+const description =
+  "Automatizamos procesos, conectamos sistemas y desarrollamos soluciones de inteligencia artificial que convierten tareas manuales en operaciones más eficientes.";
+
 export const metadata: Metadata = {
-  title: "Homi Systems | Engineering Intelligent Software",
-  description: "Enterprise solutions, analytics, and automations for the modern web.",
+  title,
+  description,
+  openGraph: { title, description, type: "website", locale: "es", siteName: "KAIVA" },
 };
 
 export default function RootLayout({
