@@ -4,8 +4,22 @@
 
 Landing de KAIVA (trabajadores digitales + servicios de automatización, IA y
 software a medida). Next.js 16 (App Router) + React 19 + Tailwind v4.
-`framer-motion` para lo animado con estado; `next/font` para Geist; iconos con
-Material Symbols (fuente cargada en `layout.tsx`).
+`framer-motion` para lo animado con estado; `next/font` para Geist.
+
+## Iconos: Material Symbols autoalojada
+
+`src/app/fonts/material-symbols-outlined-300.woff2`, registrada con
+`next/font/local` en `layout.tsx` (`next/font/google` no la tiene en su
+catálogo). Es el archivo **estático** outlined, peso 300, sin relleno: 343 KB
+contra 1.1 MB de la variable. `font-variation-settings` no hace nada con ella;
+si algún día hace falta otro peso o el relleno, hay que bajar otro archivo.
+
+La clase `.material-symbols-outlined` está definida a mano en `globals.css`
+**dentro de `@layer base`**. No volver a cargar la hoja de Google con `<link>`:
+sus reglas quedan fuera de toda capa y le ganan a cualquier utilidad de
+Tailwind (que vive en `@layer utilities`), así que `text-[18px]` o `hidden` en
+un icono dejan de funcionar. Tampoco sirve `@import url(...) layer(base)`: la
+cadena de CSS de Next descarta los `@import` remotos sin avisar.
 
 ## Despliegue
 
@@ -22,7 +36,7 @@ src/app/page.tsx              Server Component; sólo ensambla secciones
 src/components/landing/       Una sección por archivo + primitives.tsx
 src/components/visuals/       Diagramas animados (HeroFlow, SystemPipeline, WorkerSteps)
 src/hooks/use-cycle.ts        Índice en bucle para los diagramas
-src/components/sections/      Restos de la plantilla "Homi", NO se usan
+src/lib/contact.ts            Dirección de correo del formulario (CONTACT_EMAIL)
 ```
 
 - **Sólo lo interactivo es `"use client"`**: Navbar, ContactForm, ScrollReveal
@@ -61,11 +75,21 @@ proyecto) comparando `scrollWidth` del documento con el viewport a
 320/360/390/430/768/820/1024/1280/1440/1920, y `scrollWidth > clientWidth`
 por elemento.
 
+## Formulario de contacto: mailto
+
+Con `output: "export"` no hay servidor que reciba el formulario. Se eligió
+`mailto` frente a un servicio de formularios (Formspree), Firestore o pasar a
+Vercel: al enviar, `ContactForm` arma asunto y cuerpo con los campos y abre el
+programa de correo del visitante hacia `CONTACT_EMAIL` (`src/lib/contact.ts`).
+
+Como la página no puede saber si el visitante envió el correo, **no se muestra
+"mensaje recibido"**: tras abrirlo se muestra la dirección como respaldo. El
+mensaje se limita a 1500 caracteres porque los clientes truncan URLs mailto
+largas. Contra: quien no tiene un cliente de correo configurado depende de
+copiar la dirección.
+
 ## Pendiente
 
-- **El formulario de contacto no envía nada**: `ContactForm` simula el envío
-  con un `setTimeout` y muestra "Mensaje Recibido". Con `output: "export"` no
-  hay Server Action posible; hace falta un servicio externo (o quitar el
-  export).
-- Los enlaces "Nosotros", "Privacidad" y "Términos" del footer apuntan a `#`.
-- `layout.tsx` todavía tiene el título y la descripción de "Homi Systems".
+- Páginas de Privacidad y Términos: se quitaron los enlaces del footer hasta
+  tener el texto legal real (razón social, domicilio, correo para derechos
+  ARCO). No inventar contenido legal.
