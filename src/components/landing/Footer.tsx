@@ -18,7 +18,6 @@ const columns = [
   {
     title: "EMPRESA",
     links: [
-      { href: "#", label: "Nosotros" },
       { href: "#como-funciona", label: "Tecnología" },
       { href: "#seguridad", label: "Seguridad" },
       { href: "#contacto", label: "Contacto" },
@@ -55,12 +54,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-16 flex flex-col-reverse gap-4 border-t border-outline-variant/40 pt-8 text-xs text-on-surface-variant sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 border-t border-outline-variant/40 pt-8 text-xs text-on-surface-variant">
           <p>© {new Date().getFullYear()} KAIVA. Todos los derechos reservados.</p>
-          <ul className="flex gap-6">
-            <li><Link href="#" className="transition-colors hover:text-primary">Privacidad</Link></li>
-            <li><Link href="#" className="transition-colors hover:text-primary">Términos</Link></li>
-          </ul>
         </div>
       </div>
     </footer>
