@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +11,18 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Material Symbols autoalojada: next/font/google no la incluye en su catálogo.
+// Sólo se usa el estilo outlined a peso 300 sin relleno, así que basta el
+// archivo estático (343 KB) en vez de la fuente variable completa (1.1 MB).
+// display "block": con "swap" se ve el nombre del icono en texto mientras carga.
+const materialSymbols = localFont({
+  src: "./fonts/material-symbols-outlined-300.woff2",
+  variable: "--font-material-symbols",
+  weight: "300",
+  display: "block",
+  adjustFontFallback: false,
 });
 
 const title = "KAIVA | Automatización, IA y software a medida para empresas";
@@ -28,14 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable} light h-full antialiased scroll-smooth`}>
-      <head>
-        {/* display=block: con swap, mientras carga la fuente se ve el nombre del
-            icono en texto ("database", "arrow_forward") y empuja el layout.
-            no-page-custom-font es para el router pages/, no aplica en app/. */}
-        {/* eslint-disable-next-line @next/next/google-font-display, @next/next/no-page-custom-font */}
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet" />
-      </head>
+    <html lang="es" className={`${geistSans.variable} ${geistMono.variable} ${materialSymbols.variable} light h-full antialiased scroll-smooth`}>
       <body className="font-body-md text-body-md overflow-x-hidden min-h-full flex flex-col">{children}</body>
     </html>
   );
